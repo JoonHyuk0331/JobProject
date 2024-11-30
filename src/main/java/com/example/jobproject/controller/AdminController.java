@@ -5,10 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class MainController {
-    @GetMapping("/")
-    @ResponseBody
+@ResponseBody//API서버라 web이 아닌 문자열을 반환할것임
+public class AdminController {
+
+    @GetMapping("/admin")
     public String adminP() {
-        return "Main Controller";
+
+        return "adminController";
     }
 }

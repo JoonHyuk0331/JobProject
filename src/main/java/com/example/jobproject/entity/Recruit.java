@@ -28,6 +28,13 @@ public class Recruit {
     private String recruit_main_job_sectors;
     private String recruit_side_job_sectors;
 
+    //해당 recruit에 관심있는 사용자'들' 조회용
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteRecruit> favoriteRecruits;
+
+    //해당 공고를 올린 회사의 id
+    @ManyToOne
+    @JoinColumn(name="Corp_id")
+    private Corp corp;
+
 }

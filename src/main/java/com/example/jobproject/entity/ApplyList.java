@@ -27,4 +27,5 @@ public class ApplyList {
     @OneToOne
     @JoinColumn(name="Resume_id")
     private Resume resume;
+
 }

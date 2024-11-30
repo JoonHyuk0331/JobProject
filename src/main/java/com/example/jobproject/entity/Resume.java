@@ -16,6 +16,10 @@ public class Resume {
     private String title;
     private String content;
 
+    //이 이력서를 쓴 사람의 정보
+    @ManyToOne
+    private User user;
+
 //    @OneToOne
 //    @JoinColumn(name = "ApplyList_id")
 //    private ApplyList applyList;
