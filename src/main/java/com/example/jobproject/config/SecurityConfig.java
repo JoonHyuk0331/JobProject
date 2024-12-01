@@ -1,5 +1,7 @@
 package com.example.jobproject.config;
 
+import com.example.jobproject.jwt.JWTUtil;
+import com.example.jobproject.jwt.JWTfilter;
 import com.example.jobproject.jwt.LoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +20,10 @@ public class SecurityConfig {
 
     //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration) {
-
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
         this.authenticationConfiguration = authenticationConfiguration;
     }
 
@@ -57,18 +60,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/", "/join").permitAll()//이 경로들은 인증 없이 누구나 접근할 수 있음
                         .requestMatchers("/admin").hasRole("ADMIN")//admin 경로는 ADMIN 권한을 가진 사용자만 접근할 수 있음
+                        .requestMatchers("/main").hasRole("USER")
                         .anyRequest().authenticated());//위에서 명시한 경로 외의 모든 요청은 인증된 사용자만 접근할 수 있도록
 
         //세션 설정
         http
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+        http
+                .addFilterAt(new JWTfilter(jwtUtil), LoginFilter.class);
         //커스텀 필터 적용
         // LoginFilter내부 인자를 위해 위에 생성자
         // AuthenticationConfiguration,AuthenticationManager 두개 만들어져있음
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         http
                 .sessionManagement((session) -> session
