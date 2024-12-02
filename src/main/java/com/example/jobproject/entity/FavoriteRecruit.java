@@ -14,10 +14,10 @@ public class FavoriteRecruit {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="User_id")
+    @JoinColumn(name="user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="Recruit_id")
+    @JoinColumn(name="recruit_id")
     private Recruit recruit;
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="Resume_id")
+    @Column(name="resume_id")
     private int id;
 
     private String title;

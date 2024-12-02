@@ -12,29 +12,42 @@ import java.util.List;
 public class Recruit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="Recruit_id")
+    @Column(name = "recruit_id")
     private int id;
 
-    private String recruit_title;
-    private String recruit_company;
-    private String recruit_location;
-    private String recruit_experience;
-    private String recruit_jobtype;
+    @Column(name = "recruit_title")
+    private String recruitTitle;
 
-    //@Column(columnDefinition = "date")
-    private String recruit_deadline;
+    @Column(name = "recruit_company")
+    private String recruitCompany;
 
-    private String recruit_requirement;
-    private String recruit_main_job_sectors;
-    private String recruit_side_job_sectors;
+    @Column(name = "recruit_location")
+    private String recruitLocation;
 
-    //해당 recruit에 관심있는 사용자'들' 조회용
+    @Column(name = "recruit_experience")
+    private String recruitExperience;
+
+    @Column(name = "recruit_jobtype")
+    private String recruitJobType;
+
+    @Column(name = "recruit_deadline")
+    private String recruitDeadline;
+
+    @Column(name = "recruit_requirement")
+    private String recruitRequirement;
+
+    @Column(name = "recruit_main_job_sectors")
+    private String recruitMainJobSectors;
+
+    @Column(name = "recruit_side_job_sectors")
+    private String recruitSideJobSectors;
+
+    // 해당 recruit에 관심있는 사용자 '들' 조회용
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteRecruit> favoriteRecruits;
 
-    //해당 공고를 올린 회사의 id
+    // 해당 공고를 올린 회사의 id
     @ManyToOne
-    @JoinColumn(name="Corp_id")
+    @JoinColumn(name = "corp_id")
     private Corp corp;
-
 }

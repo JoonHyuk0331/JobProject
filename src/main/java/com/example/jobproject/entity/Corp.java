@@ -12,21 +12,32 @@ import java.util.List;
 public class Corp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column( name = "Corp_id")
+    @Column(name = "corp_id")
     private int id;
 
-    private String corp_title;
-    private String corp_business_type;
-    private String corp_ceo;
-    private String corp_homepage_url;
-    private String corp_business_content;
-    private String corp_location;
+    @Column(name = "corp_title")
+    private String corpTitle;
 
-    //해당 Corp에 관심있는 사용자'들' 조회용
+    @Column(name = "corp_business_type")
+    private String corpBusinessType;
+
+    @Column(name = "corp_ceo")
+    private String corpCeo;
+
+    @Column(name = "corp_homepage_url")
+    private String corpHomepageUrl;
+
+    @Column(name = "corp_business_content")
+    private String corpBusinessContent;
+
+    @Column(name = "corp_location")
+    private String corpLocation;
+
+    // 해당 Corp에 관심있는 사용자 '들' 조회용
     @OneToMany(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteCorp> favoriteCorps;
 
-    //회사는 여러개의 recruit 공고를 낼 수 있다
+    // 회사는 여러 개의 recruit 공고를 낼 수 있다
     @OneToMany(mappedBy = "corp")
     private List<Recruit> recruits;
 }

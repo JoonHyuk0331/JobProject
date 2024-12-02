@@ -14,10 +14,10 @@ public class FavoriteCorp {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="User_id")
+    @JoinColumn(name="user_id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="Corp_id")
+    @JoinColumn(name="corp_id")
     private Corp corp;
 }
