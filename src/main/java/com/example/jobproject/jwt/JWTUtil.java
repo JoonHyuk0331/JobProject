@@ -21,19 +21,33 @@ public class JWTUtil {
     }
 
     //jwt검증
+    //JWT 토큰에서 사용자명을 추출
     public String getUsername(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
-
+    // JWT 토큰에서 사용자의 role(역할) 정보를 추출
     public String getRole(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }
-
+    //JWT 토큰이 만료되었는지
     public Boolean isExpired(String token) {
 
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+    }
+    // 토큰 검증 메서드 추가
+    //JWT 토큰이 유효한지 검증 T/F
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     //jwt 토큰 생성

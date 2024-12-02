@@ -1,5 +1,6 @@
 package com.example.jobproject.entity;
 
+import com.example.jobproject.dto.RecruitDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,4 +51,21 @@ public class Recruit {
     @ManyToOne
     @JoinColumn(name = "corp_id")
     private Corp corp;
+
+    // DTO로 변환하는 메서드
+    public RecruitDTO toDTO() {
+        RecruitDTO dto = new RecruitDTO();
+        dto.setId(this.id);
+        dto.setRecruitTitle(this.recruitTitle);
+        dto.setRecruitCompany(this.recruitCompany);
+        dto.setRecruitLocation(this.recruitLocation);
+        dto.setRecruitExperience(this.recruitExperience);
+        dto.setRecruitJobType(this.recruitJobType);
+        dto.setRecruitDeadline(this.recruitDeadline);
+        dto.setRecruitRequirement(this.recruitRequirement);
+        dto.setRecruitMainJobSectors(this.recruitMainJobSectors);
+        dto.setRecruitSideJobSectors(this.recruitSideJobSectors);
+        dto.setCorpId(this.corp.getId());//corp전체를 넣는게 아니고 id만 넣기
+        return dto;
+    }
 }

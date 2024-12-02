@@ -72,6 +72,7 @@ public class SecurityConfig {
         //커스텀 필터 적용
         // LoginFilter내부 인자를 위해 위에 생성자
         // AuthenticationConfiguration,AuthenticationManager 두개 만들어져있음
+        //필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager() 메소드에 authenticationConfiguration 객체를 넣어야 함) 따라서 등록 필요
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
