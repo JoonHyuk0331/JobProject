@@ -33,8 +33,16 @@ public class JWTUtil {
     }
     //JWT 토큰이 만료되었는지
     public Boolean isExpired(String token) {
+        System.out.println("start isExpired");
+        System.out.println("Date():");
+        System.out.println(new Date());
+        System.out.println("System.currentTimeMillis():");
+        System.out.println(new Date(System.currentTimeMillis()));
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date(System.currentTimeMillis()));
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+    }
+    public String getCategory(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("category", String.class);
     }
     // 토큰 검증 메서드 추가
     //JWT 토큰이 유효한지 검증 T/F
@@ -51,9 +59,10 @@ public class JWTUtil {
     }
 
     //jwt 토큰 생성
-    public String createJwt(String username, String role, Long expiredMs) {
+    public String createJwt(String category, String username, String role, Long expiredMs) {
 
         return Jwts.builder()
+                .claim("category", category)
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))

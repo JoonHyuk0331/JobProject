@@ -2,8 +2,10 @@ package com.example.jobproject.entity;
 
 import com.example.jobproject.dto.RecruitDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -43,6 +45,12 @@ public class Recruit {
     @Column(name = "recruit_side_job_sectors")
     private String recruitSideJobSectors;
 
+    @Column(name = "recruit_salary")
+    private int recruitSalary;
+
+    @Column(name = "recruit_views" ,columnDefinition = "integer default 0")
+    private int recruitViews;
+
     // 해당 recruit에 관심있는 사용자 '들' 조회용
     @OneToMany(mappedBy = "recruit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteRecruit> favoriteRecruits;
@@ -65,7 +73,10 @@ public class Recruit {
         dto.setRecruitRequirement(this.recruitRequirement);
         dto.setRecruitMainJobSectors(this.recruitMainJobSectors);
         dto.setRecruitSideJobSectors(this.recruitSideJobSectors);
+        dto.setRecruitSalary(this.recruitSalary);
+        dto.setRecruitViews(this.recruitViews);
         dto.setCorpId(this.corp.getId());//corp전체를 넣는게 아니고 id만 넣기
         return dto;
     }
+
 }

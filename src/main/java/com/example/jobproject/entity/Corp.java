@@ -33,6 +33,9 @@ public class Corp {
     @Column(name = "corp_location")
     private String corpLocation;
 
+    @Column(name = "corp_salary")
+    private int corpSalary;
+
     // 해당 Corp에 관심있는 사용자 '들' 조회용
     @OneToMany(mappedBy = "corp", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteCorp> favoriteCorps;
@@ -40,4 +43,9 @@ public class Corp {
     // 회사는 여러 개의 recruit 공고를 낼 수 있다
     @OneToMany(mappedBy = "corp")
     private List<Recruit> recruits;
+
+    // 회사의 세부 정보 테이블
+    @OneToOne
+    @JoinColumn(name="corp_detail_id")
+    private CorpDetail corpDetail;
 }

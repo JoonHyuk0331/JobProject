@@ -3,8 +3,10 @@ package com.example.jobproject.jwt;
 import com.example.jobproject.dto.CustomUserDetails;
 import com.example.jobproject.entity.User;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,24 +54,42 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     //로그인 성공시 실행하는 메소드 (여기서 JWT를 발급하면 됨)
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-
-        String username = customUserDetails.getUsername();
+//        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//
+//        String username = customUserDetails.getUsername();
+        //유저정보
+        String username = authentication.getName();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
         GrantedAuthority auth = iterator.next();
-
         String role = auth.getAuthority();
 
-        String token = jwtUtil.createJwt(username, role, 60*60*10L);
+        //토큰생성
+        //String token = jwtUtil.createJwt(username, role, 60*60*1900L);//+ 60*60*9L 토큰 생성은 UTF시간이 표준, 한국시차9시간추가해줌
+        //첫번째 인자: 토큰이 access토큰인지 refresh토큰인지 구별하는~
+        String access = jwtUtil.createJwt("access",username,role,600000L);
+        String refresh = jwtUtil.createJwt("refresh",username,role,86400000L);
 
-        response.addHeader("Authorization", "Bearer " + token);
+        //기존:response.addHeader("Authorization", "Bearer " + token);
+        response.setHeader("access",access);
+        response.addCookie(createCookie("refresh",refresh));
+        response.setStatus(HttpStatus.OK.value());
     }
 
     //로그인 실패시 실행하는 메소드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
         response.setStatus(401);
+    }
+
+    public Cookie createCookie(String key, String value) {
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(24*60*60);//쿠키의 생명주기
+        //cookie.setSecure(true);
+        //cookie.setPath("/");
+        cookie.setHttpOnly(true);
+
+        return cookie;
     }
 }
