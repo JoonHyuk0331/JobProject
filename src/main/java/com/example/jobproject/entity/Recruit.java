@@ -75,7 +75,11 @@ public class Recruit {
         dto.setRecruitSideJobSectors(this.recruitSideJobSectors);
         dto.setRecruitSalary(this.recruitSalary);
         dto.setRecruitViews(this.recruitViews);
-        dto.setCorpId(this.corp.getId());//corp전체를 넣는게 아니고 id만 넣기
+        //DTO 변환중 Corp가 null 값일때 오류 발생 방지
+        Corp corp = null; // null 허용, 회사id 없는 JSON 전달받으면 null값으로 집어넣기
+        if (this.corp != null) {// null값이 아니면
+            dto.setCorpId(this.corp.getId());//corp전체를 넣는게 아니고 id만 넣기
+        }
         return dto;
     }
 }

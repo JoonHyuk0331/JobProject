@@ -4,6 +4,8 @@ import com.example.jobproject.dto.CorpDetailDTO;
 import com.example.jobproject.dto.RecruitDTO;
 import com.example.jobproject.service.CorpDetailService;
 import com.example.jobproject.service.JobService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +28,9 @@ public class JobController {
     //1.채용 공고 조회 API (페이징)-------------------------------------------------------------------------------------
     @Tag(name = "예제 API", description = "Swagger 테스트용 API")
     @GetMapping("/jobs/joblist")
-    public Map<String, Object> recruitList(@RequestParam(defaultValue = "id") String keyword, @RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "ASC") String order) {
+    public Map<String, Object> recruitList(@Parameter(description = "정렬 기준이 될 필드명을 입력하세요", required = true) @RequestParam(defaultValue = "id") String keyword,
+                                           @RequestParam(defaultValue = "0") int page,
+                                           @Parameter(description = "오름차순 : ASC 내림차순 : DESC", required = true) @RequestParam(defaultValue = "ASC") String order) {
         Page<RecruitDTO> recruitPage = jobService.getSortedListAll(keyword,page,order);
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
@@ -130,6 +134,7 @@ public class JobController {
     }
 
     //채용 공고 등록 API
+    @Operation(summary = "채용공고 등록", description = "JSON객체를 입력으로 받습니다 회사 Id를 모를경우 corpId 필드를 제외하고 요청을 보내세요 null 값으로 처리됩니다")
     @PostMapping("/jobs/create")
     public ResponseEntity<String> createRecruit (@RequestBody RecruitDTO recruitDTO ) {
         jobService.createRecruit(recruitDTO);
