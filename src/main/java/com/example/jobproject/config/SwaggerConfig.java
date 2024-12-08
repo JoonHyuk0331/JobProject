@@ -44,7 +44,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("JWT"))
+        return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Access Token (Bearer)"))
                 .components(components)
                 .info(apilnfo());
     }

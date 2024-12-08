@@ -58,8 +58,8 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join","/jobs/**","/swagger-ui/**","/v3/api-docs/**").permitAll()//이 경로들은 인증 없이 누구나 접근할 수 있음
-                        .requestMatchers("/admin").hasRole("ADMIN")//admin 경로는 ADMIN 권한을 가진 사용자만 접근할 수 있음
+                        .requestMatchers("/login", "/", "/join","/swagger-ui/**","/v3/api-docs/**").permitAll()//이 경로들은 인증 없이 누구나 접근할 수 있음
+                        .requestMatchers("/admin","/jobs/**").hasRole("ADMIN")//admin 경로는 ADMIN 권한을 가진 사용자만 접근할 수 있음
                         .requestMatchers("/main").hasRole("USER")
                         .requestMatchers("/reissue").permitAll() //access토큰이 만료된 상태로 접근하는거라서 누구나 들어올수 있게
                         .requestMatchers("/error").permitAll()//에러 처리 경로에서 403 뜨지 않도록

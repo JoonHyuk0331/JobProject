@@ -21,5 +21,4 @@ public class Resume {
     private User user;
 
 }
-//각 사용자가 여러 ApplyList에 여러 Resume을 지원할 수 있다면
-// OneToMany 또는 ManyToOne 관계가 적합함. <-맞는지모르겠다?
+
