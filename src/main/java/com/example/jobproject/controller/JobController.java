@@ -149,13 +149,11 @@ public class JobController {
     }
     //채용 공고 삭제 API
     @Operation(summary = "채용공고 삭제", description = "입력한 id에 해당하는 채용공고를 삭제합니다")
-    @GetMapping("/jobs/delete/{id}")
+    @DeleteMapping("/jobs/delete/{id}")
     public ResponseEntity<String> deleteRecruit (@PathVariable int id) {
         jobService.deleteRecruit(id);
         return ResponseEntity.ok("Recruit posting deleted successfully!");
     }
-
-
 
     //detail 함수에서 사용하는 첫번째 단어 반환하는 함수
     public String getFirstWord(String input) {
