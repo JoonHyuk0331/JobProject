@@ -120,7 +120,7 @@ public class JobService {
     }
     //2-3
     // 채용 공고 등록 API
-    public Recruit createRecruit(RecruitDTO recruitDTO) {
+    public void createRecruit(RecruitDTO recruitDTO) {
         Corp corp = null; // null 허용, 회사id 없는 JSON 전달받으면 null값으로 집어넣기
 
         // corpId가 존재하는 경우에만 corp 조회
@@ -130,8 +130,20 @@ public class JobService {
         }
 
         // Recruit 객체 생성 및 값 설정
-        Recruit recruit = new Recruit();
-        recruit.setRecruitTitle(recruitDTO.getRecruitTitle());
+        Recruit recruit = recruitDTO.toEntity();
+        recruit.setCorp(corp); // recruitDTO.toEntity();에서 corp객체는 null 값으로 가져오니 corp 설정은 따로 해주기
+        // 저장
+        recruitRepository.save(recruit);
+
+    }
+    // 채용 공고 수정 API
+    //방식: 입력받은 id로 수정할 대상이 되는 기존 Recruit 찾아와서
+    //입력받은 DTO에서 id를 제외하고 수정할 부분만 따로 조작 후 save
+    public void updateRecruit(int id,RecruitDTO recruitDTO) {
+        Recruit recruit = recruitRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Post ID: " + id));
+
+        //수정 id,recruitTitle,recruitSalary,corp 를 제외한 값
         recruit.setRecruitCompany(recruitDTO.getRecruitCompany());
         recruit.setRecruitLocation(recruitDTO.getRecruitLocation());
         recruit.setRecruitExperience(recruitDTO.getRecruitExperience());
@@ -141,9 +153,11 @@ public class JobService {
         recruit.setRecruitMainJobSectors(recruitDTO.getRecruitMainJobSectors());
         recruit.setRecruitSideJobSectors(recruitDTO.getRecruitSideJobSectors());
         recruit.setRecruitSalary(recruitDTO.getRecruitSalary());
-        recruit.setCorp(corp); // corp 설정
 
-        // 저장
-        return recruitRepository.save(recruit);
+        recruitRepository.save(recruit);
+    }
+    // 채용 공고 삭제 API
+    public void deleteRecruit(int id) {
+        recruitRepository.deleteById(id);
     }
 }

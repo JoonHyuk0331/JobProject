@@ -30,6 +30,23 @@ public class RecruitDTO {
     private int recruitViews;
     private Integer corpId;  // 회사 ID만 포함 null값 허용해야되어서 Integer로 변환함
 
+    public Recruit toEntity(){
+        Recruit r = new Recruit();
+        r.setRecruitTitle(recruitTitle);
+        r.setRecruitCompany(recruitCompany);
+        r.setRecruitLocation(recruitLocation);
+        r.setRecruitExperience(recruitExperience);
+        r.setRecruitJobType(recruitJobType);
+        r.setRecruitDeadline(recruitDeadline);
+        r.setRecruitRequirement(recruitRequirement);
+        r.setRecruitMainJobSectors(recruitMainJobSectors);
+        r.setRecruitSideJobSectors(recruitSideJobSectors);
+        r.setRecruitSalary(recruitSalary);
+        r.setRecruitViews(recruitViews);
+        r.setCorp(null);
+        return r;
+    }
+
     public Page<RecruitDTO> toRecruitDTOPage(Page<Recruit> RecruitList){
         Integer corpid = null; // null 허용, 회사id 없는 JSON 전달받으면 null값으로 집어넣기
         Page<RecruitDTO> recruitDtoPage = RecruitList.map(recruit -> RecruitDTO.builder()
