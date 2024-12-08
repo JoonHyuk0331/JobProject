@@ -45,8 +45,8 @@ public class Recruit {
     @Column(name = "recruit_side_job_sectors")
     private String recruitSideJobSectors;
 
-    @Column(name = "recruit_salary")
-    private int recruitSalary;
+    @Column(name = "recruit_salary",columnDefinition = "integer default 0")
+    private Integer recruitSalary=0;
 
     @Column(name = "recruit_views" ,columnDefinition = "integer default 0")
     private int recruitViews;
@@ -78,5 +78,4 @@ public class Recruit {
         dto.setCorpId(this.corp.getId());//corp전체를 넣는게 아니고 id만 넣기
         return dto;
     }
-
 }

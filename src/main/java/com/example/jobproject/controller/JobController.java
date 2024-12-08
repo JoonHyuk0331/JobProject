@@ -2,22 +2,18 @@ package com.example.jobproject.controller;
 
 import com.example.jobproject.dto.CorpDetailDTO;
 import com.example.jobproject.dto.RecruitDTO;
-import com.example.jobproject.entity.Recruit;
 import com.example.jobproject.service.CorpDetailService;
 import com.example.jobproject.service.JobService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @RestController
 public class JobController {
@@ -30,14 +26,13 @@ public class JobController {
     //1.채용 공고 조회 API (페이징)-------------------------------------------------------------------------------------
     @Tag(name = "예제 API", description = "Swagger 테스트용 API")
     @GetMapping("/jobs/joblist")
-    public Map<String, Object> recruitList(@RequestParam(defaultValue = "0") int page) {
-        Page<RecruitDTO> recruitPage = jobService.getListAll(page);
+    public Map<String, Object> recruitList(@RequestParam(defaultValue = "id") String keyword, @RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "ASC") String order) {
+        Page<RecruitDTO> recruitPage = jobService.getSortedListAll(keyword,page,order);
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
         response.put("data", recruitPage);  // DTO 리스트로 반환
         return response;
     }
-    //todo: 정렬 기준 추가해야함
 
     //2-1.채용 공고 검색 API--------------------------------------------------------------------------------------------
     //    키워드 검색
@@ -135,6 +130,11 @@ public class JobController {
     }
 
     //채용 공고 등록 API
+    @PostMapping("/jobs/create")
+    public ResponseEntity<String> createRecruit (@RequestBody RecruitDTO recruitDTO ) {
+        jobService.createRecruit(recruitDTO);
+        return ResponseEntity.ok("Recruit posting created successfully!");
+    }
     //채용 공고 수정 API
     //채용 공고 삭제 API
 

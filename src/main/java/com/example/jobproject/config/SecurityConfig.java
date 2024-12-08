@@ -62,6 +62,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")//admin 경로는 ADMIN 권한을 가진 사용자만 접근할 수 있음
                         .requestMatchers("/main").hasRole("USER")
                         .requestMatchers("/reissue").permitAll() //access토큰이 만료된 상태로 접근하는거라서 누구나 들어올수 있게
+                        .requestMatchers("/error").permitAll()//에러 처리 경로에서 403 뜨지 않도록
                         .anyRequest().authenticated());//위에서 명시한 경로 외의 모든 요청은 인증된 사용자만 접근할 수 있도록
 
         //세션 설정

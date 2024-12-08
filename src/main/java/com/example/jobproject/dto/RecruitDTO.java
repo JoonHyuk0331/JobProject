@@ -27,7 +27,7 @@ public class RecruitDTO {
     private String recruitSideJobSectors;
     private int recruitSalary;
     private int recruitViews;
-    private int corpId;  // 회사 ID만 포함
+    private Integer corpId;  // 회사 ID만 포함 null값 허용해야되어서 Integer로 변환함
 
     public Page<RecruitDTO> toRecruitDTOPage(Page<Recruit> RecruitList){
         Page<RecruitDTO> recruitDtoPage = RecruitList.map(recruit -> RecruitDTO.builder()
