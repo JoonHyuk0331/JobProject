@@ -4,6 +4,7 @@ import com.example.jobproject.CustomException.DataDuplicateException;
 import com.example.jobproject.dto.RecruitDTO;
 import com.example.jobproject.entity.Recruit;
 import com.example.jobproject.service.ApplicationsService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,7 @@ public class ApplicationController{
     private ApplicationsService applicationsService;
 
     //지원하기
+    @Operation(summary = "지원하기", description = "지원하려는 공고의 Id , 첨부할 이력서의 Id 가 필요합니다")
     @PostMapping("/applications")
     public ResponseEntity<?> apply(int recruitId,int resumeId) {
         try {
@@ -52,6 +54,7 @@ public class ApplicationController{
     }
 
     //지원취소
+    @Operation(summary = "지원취소", description = "취소할 지원내역의 Id를 입력해주세요")
     @DeleteMapping("/applications/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         try{
@@ -64,6 +67,7 @@ public class ApplicationController{
     }
 
     //지원조회
+    @Operation(summary = "지원조회", description = "현재 로그인된 사용자가 지원한 공고의 제목 리스트들을 반환")
     @GetMapping("/applications")
     public Map<String, Object> getAllList() {
         // todo : //    상태별 필터링,날짜별 정렬 구체적으로 뭘 말하는거지?

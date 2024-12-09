@@ -26,7 +26,6 @@ public class JobController {
     private CorpDetailService corpDetailService;
 
     //1.채용 공고 조회 API (페이징)-------------------------------------------------------------------------------------
-    @Tag(name = "예제 API", description = "Swagger 테스트용 API")
     @GetMapping("/jobs")
     public Map<String, Object> recruitList(@Parameter(description = "정렬 기준이 될 필드명을 입력하세요", required = true) @RequestParam(defaultValue = "id") String keyword,
                                            @RequestParam(defaultValue = "0") int page,

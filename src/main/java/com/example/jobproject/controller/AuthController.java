@@ -26,6 +26,7 @@ public class AuthController {
     @Autowired
     private JWTUtil jwtUtil ;
 
+    @Operation(summary = "회원가입", description = "이메일 형식을 지켜주세요,username과 password 만 입력하면 됩니다")
     @PostMapping("/auth/register")
     public ResponseEntity<?> joinProcess(UserDTO userDTO) {
         try{
@@ -37,12 +38,14 @@ public class AuthController {
         return ResponseEntity.ok("회원가입 성공 :" + userDTO.getUsername());
     }
 
+    @Operation(summary = "로그인", description = "응답 헤더에 JWT 토큰값이 반환됩니다,username과 password 만 입력하면 됩니다")
     @PostMapping("/auth/login")
-    public ResponseEntity<?> loginProcess(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<?> loginProcess(@RequestParam String username, @RequestParam String password) {
         // 로그인 처리 후 JWT 토큰을 반환하는 로직 (필터에서 수행)
         return ResponseEntity.status(HttpStatus.OK).body("Login successful");
     }
 
+    @Operation(summary = "토큰 재발급", description = "쿠키의 리프레시 토큰이 있다면 새로운 엑세스 토큰을 반환합니다")
     @PostMapping("/auth/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request, HttpServletResponse response) {
         //get refresh token
@@ -92,6 +95,7 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "회원정보 수정", description = "패스워드,지역,학력을 수정할 수 있습니다")
     @PutMapping("/auth/profile")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
         userService.updateUser(userDTO);
