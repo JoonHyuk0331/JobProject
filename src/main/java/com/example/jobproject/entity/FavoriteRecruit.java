@@ -1,8 +1,11 @@
 package com.example.jobproject.entity;
 
+import com.example.jobproject.dto.FavoriteRecuritDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -20,4 +23,10 @@ public class FavoriteRecruit {
     @ManyToOne
     @JoinColumn(name="recruit_id")
     private Recruit recruit;
+
+    private boolean bookmarked;//북마크 상태 토글
+
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
+
 }

@@ -21,16 +21,16 @@ import java.util.Iterator;
 //SecurityFilterChain 클라이언트 요청 body에서 username,pw를 받아 token에 담아서 검증을 위한 AuthenticationManager로 전달
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
-    // 슬픈사실:
-    // 우리의 JWT 프로젝트는 폼 로그인 방식이 아니라
+    // 이 JWT 프로젝트는 폼 로그인 방식이 아니라
     // SecurityConfig에서 formLogin 방식을 disable 했기 때문에
     // 기본적으로 활성화 되어 있는 해당 필터는 동작하지 않는다.
-    // 따라서 로그인을 진행하기 위해서 필터를 직접 커스텀하여 등록해야 한다. 시발...
+    // 따라서 로그인을 진행하기 위해서 필터를 직접 커스텀하여 등록해야 한다.
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
     public LoginFilter(AuthenticationManager authenticationManager,JWTUtil jwtUtil) {
+        super.setFilterProcessesUrl("/auth/login");//로그인 경로 변경
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }

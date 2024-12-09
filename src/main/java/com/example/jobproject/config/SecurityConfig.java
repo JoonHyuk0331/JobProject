@@ -58,10 +58,9 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join","/swagger-ui/**","/v3/api-docs/**").permitAll()//이 경로들은 인증 없이 누구나 접근할 수 있음
+                        .requestMatchers("/auth/login","/", "/auth/register","/auth/refresh","/swagger-ui/**","/v3/api-docs/**").permitAll()//이 경로들은 인증 없이 누구나 접근할 수 있음
                         .requestMatchers("/admin","/jobs/**").hasRole("ADMIN")//admin 경로는 ADMIN 권한을 가진 사용자만 접근할 수 있음
                         .requestMatchers("/main").hasRole("USER")
-                        .requestMatchers("/reissue").permitAll() //access토큰이 만료된 상태로 접근하는거라서 누구나 들어올수 있게
                         .requestMatchers("/error").permitAll()//에러 처리 경로에서 403 뜨지 않도록
                         .anyRequest().authenticated());//위에서 명시한 경로 외의 모든 요청은 인증된 사용자만 접근할 수 있도록
 
@@ -76,6 +75,7 @@ public class SecurityConfig {
         // LoginFilter내부 인자를 위해 위에 생성자
         // AuthenticationConfiguration,AuthenticationManager 두개 만들어져있음
         //필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager() 메소드에 authenticationConfiguration 객체를 넣어야 함) 따라서 등록 필요
+        //UsernamePasswordAuthenticationFilter가 Spring Security에서 /login을 기본 경로로 사용합니다.
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
