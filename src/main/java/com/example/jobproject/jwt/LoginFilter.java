@@ -2,6 +2,7 @@ package com.example.jobproject.jwt;
 
 import com.example.jobproject.dto.CustomUserDetails;
 import com.example.jobproject.entity.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,8 +15,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.core.AuthenticationException;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 
 //SecurityFilterChain 클라이언트 요청 body에서 username,pw를 받아 token에 담아서 검증을 위한 AuthenticationManager로 전달
@@ -39,10 +42,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         //클라이언트 요청에서 username, password 추출
-        String username = obtainUsername(request);
-        String password = obtainPassword(request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, String> credentials = null;
+        try {
+            credentials = objectMapper.readValue(request.getInputStream(), Map.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        System.out.println(username);
+        String username = credentials.get("username");
+        String password = credentials.get("password");
 
         //스프링 시큐리티에서 username과 password를 검증하기 위해서는 token에 담아야 함
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);

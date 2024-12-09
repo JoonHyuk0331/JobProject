@@ -40,7 +40,7 @@ public class AuthController {
 
     @Operation(summary = "로그인", description = "응답 헤더에 JWT 토큰값이 반환됩니다,username과 password 만 입력하면 됩니다")
     @PostMapping("/auth/login")
-    public ResponseEntity<?> loginProcess(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> loginProcess(@RequestBody UserDTO userDTO) {
         // 로그인 처리 후 JWT 토큰을 반환하는 로직 (필터에서 수행)
         return ResponseEntity.status(HttpStatus.OK).body("Login successful");
     }
