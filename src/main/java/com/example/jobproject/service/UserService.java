@@ -1,9 +1,13 @@
 package com.example.jobproject.service;
 
+import com.example.jobproject.dto.RecruitDTO;
 import com.example.jobproject.dto.UserDTO;
+import com.example.jobproject.entity.Recruit;
 import com.example.jobproject.entity.User;
 import com.example.jobproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +57,21 @@ public class UserService {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    //DTO 정보에는 수정할 정보만 담겨옴 password,education,location
+    public void updateUser(UserDTO userDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // API 요청에 들어있는 토큰의 username 정보 (JWT방식이라 토큰으로 로그인유무 판단)
+        // username을 통해 User 엔티티 조회
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
+
+        user.setUsername(bCryptPasswordEncoder.encode(userDTO.getPassword())); //비밀번호는 암호화 해서 넣기
+        user.setLocation(userDTO.getLocation());
+        user.setEducation(userDTO.getEducation());
+        //user.setRole(userDTO.getRole()); 이건 아직 냅두기로
+        userRepository.save(user);
+        //id가 이미 존재하는 id면 jpa가 알아서 update해줌
     }
 }

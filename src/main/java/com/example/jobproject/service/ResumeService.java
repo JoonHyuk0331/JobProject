@@ -33,4 +33,8 @@ public class ResumeService {
         resume.setUser(user);
         resumeRepository.save(resume);
     }
+
+    public void delete (int resumeId) {
+        resumeRepository.deleteById(resumeId);
+    }
 }

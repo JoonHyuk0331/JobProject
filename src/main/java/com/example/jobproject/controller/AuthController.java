@@ -1,6 +1,7 @@
 package com.example.jobproject.controller;
 
 import com.example.jobproject.dto.JoinDTO;
+import com.example.jobproject.dto.RecruitDTO;
 import com.example.jobproject.dto.UserDTO;
 import com.example.jobproject.jwt.JWTUtil;
 import com.example.jobproject.service.UserService;
@@ -13,26 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.token.TokenService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @RestController
 public class AuthController {
-
-//    로그인 (POST /auth/login)
-//    사용자 인증
-//    JWT 토큰 발급
-//    로그인 이력 저장
-//    실패 시 에러 처리
-//    토큰 갱신 (POST /auth/refresh)
-//    Refresh 토큰 검증
-//    새로운 Access 토큰 발급
-//    토큰 만료 처리
-//    회원 정보 수정 (PUT )
 
     @Autowired
     private UserService userService ;
@@ -104,11 +91,10 @@ public class AuthController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    //    인증 미들웨어 적용
-    //    비밀번호 변경
-    //    프로필 정보 수정
+
     @PutMapping("/auth/profile")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
-
+        userService.updateUser(userDTO);
+        return ResponseEntity.status(HttpStatus.OK).body("user update successful");
     }
 }
