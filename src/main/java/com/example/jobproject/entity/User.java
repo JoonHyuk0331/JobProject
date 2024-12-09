@@ -22,6 +22,10 @@ public class User {
     private String education;
     private String location;
 
+    // 유저는 여러 Recruit에 지원할 수 있다
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ApplyList> applyList;
+
     // 유저는 여러 Recruit에 관심을 가질 수 있다
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteRecruit> favoriteRecruits;

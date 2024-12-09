@@ -2,13 +2,11 @@ package com.example.jobproject.CustomException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-//커스텀 글로벌 에러 핸들러
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "entity not found")
-public class DataNotFoundException extends RuntimeException {
+@ResponseStatus(value = HttpStatus.CONFLICT  , reason = "중복")
+public class DataDuplicateException extends RuntimeException {
     private static final long serialVersionUID = 1L;
-    public DataNotFoundException(String message) {
+    public DataDuplicateException(String message) {
         super(message);
     }
 }
-

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -22,9 +24,13 @@ public class ApplyList {
     @ManyToOne
     @JoinColumn(name="recruit_id")
     private Recruit recruit;
-    //-------------------------------
 
-    @OneToOne
+    // 테이블 생성 날짜를 저장하는 필드
+    @Column(name = "create_date")
+    private LocalDateTime createDate;
+
+    //-------------------------------
+    @ManyToOne
     @JoinColumn(name="resume_id")
     private Resume resume;
 
