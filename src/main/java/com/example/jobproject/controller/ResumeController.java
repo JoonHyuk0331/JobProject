@@ -22,9 +22,9 @@ public class ResumeController {
 
     //이력서 삭제하기
     @Operation(summary = "이력서 삭제", description = "입력받은 id의 이력서를 삭제합니다")
-    @DeleteMapping("/resume")
-    public ResponseEntity<?> delete(@PathVariable int resume_id) {
-        resumeService.delete(resume_id);
+    @DeleteMapping("/resume/{id}")
+    public ResponseEntity<?> delete(@PathVariable int id) {
+        resumeService.delete(id);
         return ResponseEntity.ok("Resume posting delete successfully!");
     }
 }
