@@ -23,7 +23,7 @@ public class CorpDetailService {
             return corpDetail.get().toDTO();
         }
         else{
-            throw new DataNotFoundException("getCorpDetailById not found");
+            throw new DataNotFoundException("회사 상세 정보를 찾을 수 없습니다");
         }
     }
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -22,7 +23,7 @@ public class RecruitDTO {
     private String recruitLocation;
     private String recruitExperience;
     private String recruitJobType;
-    private String recruitDeadline;
+    private LocalDateTime recruitDeadline;
     private String recruitRequirement;
     private String recruitMainJobSectors;
     private String recruitSideJobSectors;

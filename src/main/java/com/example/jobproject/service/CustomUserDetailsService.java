@@ -2,6 +2,7 @@ package com.example.jobproject.service;
 
 import com.example.jobproject.dto.CustomUserDetails;
 import com.example.jobproject.entity.User;
+import com.example.jobproject.exception.DataNotFoundException;
 import com.example.jobproject.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //DB에서 조회
         User userData = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("DB에서 해당 유저를 찾을 수 없습니다."));;
+                .orElseThrow(() -> new DataNotFoundException("DB에서 해당 유저를 찾을 수 없습니다."));;
 
         if (userData != null) {
 

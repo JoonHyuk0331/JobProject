@@ -34,7 +34,6 @@ public class AuthController {
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 회원가입 형식: " + e.getMessage());
         }
-
         return ResponseEntity.ok("회원가입 성공 :" + userDTO.getUsername());
     }
 

@@ -142,7 +142,6 @@ public class JobService {
     public void updateRecruit(int id,RecruitDTO recruitDTO) {
         Recruit recruit = recruitRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Post ID: " + id));
-
         //수정 id,recruitTitle,recruitSalary,corp 를 제외한 값
         recruit.setRecruitCompany(recruitDTO.getRecruitCompany());
         recruit.setRecruitLocation(recruitDTO.getRecruitLocation());

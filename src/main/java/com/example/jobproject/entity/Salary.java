@@ -1,5 +1,6 @@
 package com.example.jobproject.entity;
 
+import com.example.jobproject.dto.SalaryDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Salary {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,4 +32,16 @@ public class Salary {
 
     @Column(name = "salary_max")
     private int salaryMax;
+
+    public SalaryDTO toDTO(){
+        SalaryDTO salaryDTO = new SalaryDTO();
+        salaryDTO.setId(id);
+        salaryDTO.setSalaryCompany(salaryCompany);
+        salaryDTO.setSalaryCorpType(salaryCorpType);
+        salaryDTO.setSalaryIndustry(salaryIndustry);
+        salaryDTO.setSalaryAvg(salaryAvg);
+        salaryDTO.setSalaryMin(salaryMin);
+        salaryDTO.setSalaryMax(salaryMax);
+        return salaryDTO;
+    }
 }

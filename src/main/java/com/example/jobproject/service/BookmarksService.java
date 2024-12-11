@@ -5,6 +5,7 @@ import com.example.jobproject.dto.RecruitDTO;
 import com.example.jobproject.entity.FavoriteRecruit;
 import com.example.jobproject.entity.Recruit;
 import com.example.jobproject.entity.User;
+import com.example.jobproject.exception.DataNotFoundException;
 import com.example.jobproject.repository.FavoriteRecruitRepository;
 import com.example.jobproject.repository.RecruitRepository;
 import com.example.jobproject.repository.UserRepository;
@@ -39,10 +40,10 @@ public class BookmarksService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // API 요청에 들어있는 토큰의 username 정보 (JWT방식이라 토큰으로 로그인유무 판단)
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new DataNotFoundException("해당 유저를 찾을 수 없습니다."));
         // 이력서 아이디
         Recruit recruit = recruitRepository.findById(resume)
-                .orElseThrow(() -> new RuntimeException("resume not found"));
+                .orElseThrow(() -> new DataNotFoundException("resume not found"));
 
         // 기존에 북마크가 존재하는지 확인
         Optional<FavoriteRecruit> existingBookmark = favoriteRecruitRepository.findByUserAndRecruit(user, recruit);
@@ -70,7 +71,7 @@ public class BookmarksService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName(); // API 요청에 들어있는 토큰의 username 정보 (JWT방식이라 토큰으로 로그인유무 판단)
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
+                .orElseThrow(() -> new DataNotFoundException("해당 유저를 찾을 수 없습니다."));
 
         Pageable pageable = PageRequest.of(page, 20,Sort.Direction.ASC, "create_date");//생성일자 순으로 오름차순
         Page<FavoriteRecruit> favoriteRecruits = favoriteRecruitRepository.findByUser(user,pageable);

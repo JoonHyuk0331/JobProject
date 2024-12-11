@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -34,7 +35,7 @@ public class Recruit {
     private String recruitJobType;
 
     @Column(name = "recruit_deadline")
-    private String recruitDeadline;
+    private LocalDateTime recruitDeadline;
 
     @Column(name = "recruit_requirement")
     private String recruitRequirement;

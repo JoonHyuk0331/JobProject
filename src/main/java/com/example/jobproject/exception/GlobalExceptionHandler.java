@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    // 400 Bad Request : 기한만료 예외처리
+    @ExceptionHandler(DeadlinePassedException.class)
+    public ResponseEntity<String> handleDeadlinePassedException(DeadlinePassedException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
     // 404 Not Found 처리
     @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<?> handleNotFound(DataNotFoundException ex) {
