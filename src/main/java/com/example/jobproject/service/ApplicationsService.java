@@ -1,7 +1,6 @@
 package com.example.jobproject.service;
 
-import com.example.jobproject.CustomException.DataDuplicateException;
-import com.example.jobproject.dto.RecruitDTO;
+import com.example.jobproject.exception.DataDuplicateException;
 import com.example.jobproject.entity.ApplyList;
 import com.example.jobproject.entity.Recruit;
 import com.example.jobproject.entity.Resume;
@@ -10,9 +9,7 @@ import com.example.jobproject.repository.ApplyListRepository;
 import com.example.jobproject.repository.RecruitRepository;
 import com.example.jobproject.repository.ResumeRepository;
 import com.example.jobproject.repository.UserRepository;
-import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -80,8 +77,8 @@ public class ApplicationsService {
     }
 
     //삭제
-    public void delete(int resumeId){
-        resumeRepository.deleteById(resumeId);
+    public void delete(int applyId){
+        applyListRepository.deleteById(applyId);
     }
 
     //지원내역 조회 : 현재 로그인한 지원 채용공고 이름 쭉 나열하면 될듯?

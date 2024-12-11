@@ -67,8 +67,14 @@ public class BookmarksService {
     }
 
     public List<FavoriteRecuritDTO> getBookmarkList(int page){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // API 요청에 들어있는 토큰의 username 정보 (JWT방식이라 토큰으로 로그인유무 판단)
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저를 찾을 수 없습니다."));
+
         Pageable pageable = PageRequest.of(page, 20,Sort.Direction.ASC, "create_date");//생성일자 순으로 오름차순
-        Page<FavoriteRecruit> favoriteRecruits = favoriteRecruitRepository.findAll(pageable);
+        Page<FavoriteRecruit> favoriteRecruits = favoriteRecruitRepository.findByUser(user,pageable);
+
         List<FavoriteRecuritDTO> favoriteRecuritDTOList = new ArrayList<>();
         for(FavoriteRecruit favoriteRecruit : favoriteRecruits){
             FavoriteRecuritDTO favoriteRecuritDTO = new FavoriteRecuritDTO();

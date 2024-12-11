@@ -1,10 +1,9 @@
 package com.example.jobproject.service;
 
-import com.example.jobproject.CustomException.DataNotFoundException;
+import com.example.jobproject.exception.DataNotFoundException;
 import com.example.jobproject.dto.CorpDetailDTO;
 import com.example.jobproject.entity.CorpDetail;
 import com.example.jobproject.repository.CorpDetailRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

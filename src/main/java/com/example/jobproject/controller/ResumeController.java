@@ -24,6 +24,7 @@ public class ResumeController {
     @Operation(summary = "이력서 삭제", description = "입력받은 id의 이력서를 삭제합니다")
     @DeleteMapping("/resume/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
+        //todo 본인이 쓴 이력서만 삭제할수 있도록
         resumeService.delete(id);
         return ResponseEntity.ok("Resume posting delete successfully!");
     }

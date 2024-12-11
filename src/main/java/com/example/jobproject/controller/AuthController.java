@@ -51,10 +51,11 @@ public class AuthController {
         //get refresh token
         String refresh = null;
         Cookie[] cookies = request.getCookies();//기존 쿠키 배열을 가져온다
+        System.out.println(cookies);
         for (Cookie cookie : cookies) {//쿠키중에 refresh 이름의 토큰 (리프레시토큰)이 있는지 찾아서 값 가져오기
 
             if (cookie.getName().equals("refresh")) {
-
+                System.out.println("리프레시 토큰 찾음!"+cookie.getValue());
                 refresh = cookie.getValue();
             }
         }

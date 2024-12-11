@@ -3,6 +3,8 @@ package com.example.jobproject.repository;
 import com.example.jobproject.entity.FavoriteRecruit;
 import com.example.jobproject.entity.Recruit;
 import com.example.jobproject.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,5 +15,5 @@ public interface FavoriteRecruitRepository extends JpaRepository<FavoriteRecruit
     Optional<FavoriteRecruit> findByUserAndRecruit(User user, Recruit recruit);
 
     // 사용자가 북마크한 모든 북마크들을 가져오기
-    List<FavoriteRecruit> findByUser(User user);
+    Page<FavoriteRecruit> findByUser(User user, Pageable pageable);
 }

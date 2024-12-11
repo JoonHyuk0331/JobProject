@@ -1,15 +1,9 @@
 package com.example.jobproject.controller;
 
-import com.example.jobproject.CustomException.DataDuplicateException;
-import com.example.jobproject.dto.RecruitDTO;
-import com.example.jobproject.entity.Recruit;
+import com.example.jobproject.exception.DataDuplicateException;
 import com.example.jobproject.service.ApplicationsService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

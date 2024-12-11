@@ -1,6 +1,6 @@
 package com.example.jobproject.service;
 
-import com.example.jobproject.CustomException.DataNotFoundException;
+import com.example.jobproject.exception.DataNotFoundException;
 import com.example.jobproject.dto.RecruitDTO;
 import com.example.jobproject.entity.Corp;
 import com.example.jobproject.entity.Recruit;
@@ -122,7 +122,7 @@ public class JobService {
     // 채용 공고 등록 API
     public void createRecruit(RecruitDTO recruitDTO) {
         Corp corp = null; // null 허용, 회사id 없는 JSON 전달받으면 null값으로 집어넣기
-
+        //todo  널 값넣으면 404 뱉는 문제해결하기
         // corpId가 존재하는 경우에만 corp 조회
         if (recruitDTO.getCorpId() != null) {
             corp = corpRepository.findById(recruitDTO.getCorpId())
