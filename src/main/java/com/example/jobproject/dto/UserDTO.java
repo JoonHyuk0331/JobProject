@@ -1,14 +1,7 @@
 package com.example.jobproject.dto;
 
-import com.example.jobproject.entity.ApplyList;
-import com.example.jobproject.entity.FavoriteCorp;
-import com.example.jobproject.entity.FavoriteRecruit;
-import com.example.jobproject.entity.Resume;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

@@ -39,10 +39,9 @@ public class ApplicationController{
     }
 
     //지원조회
-    @Operation(summary = "지원조회", description = "현재 로그인된 사용자가 지원한 공고의 제목 리스트들을 반환")
+    @Operation(summary = "지원조회", description = "현재 로그인된 사용자가 지원한 공고의 제목 리스트들을 지원한 날짜순으로 정렬해서 반환")
     @GetMapping("/applications")
     public Map<String, Object> getAllList() {
-        // todo : //    상태별 필터링,날짜별 정렬 구체적으로 뭘 말하는거지?
         List<String> appliedTitleList = applicationsService.getAllApplyRecruitList();
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");

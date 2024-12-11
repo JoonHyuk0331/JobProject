@@ -69,4 +69,13 @@ public class UserService {
         //user.setRole(userDTO.getRole()); 이건 아직 냅두기로
         userRepository.save(user);
     }
+
+    public void deleteUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User User=userRepository.findByUsername(username)
+                .orElseThrow(()->new DataNotFoundException("해당 유저를 찾을 수 없습니다."));
+
+        userRepository.delete(User);
+    }
 }

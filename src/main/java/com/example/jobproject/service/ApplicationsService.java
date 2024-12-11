@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -98,7 +99,7 @@ public class ApplicationsService {
         applyListRepository.deleteById(applyId);
     }
 
-    //지원내역 조회 : 현재 로그인한 지원 채용공고 이름 쭉 나열하면 될듯?
+    //지원내역 조회 :
     public List<String> getAllApplyRecruitList(){
         List<String> list = new ArrayList<>();
 
@@ -108,9 +109,11 @@ public class ApplicationsService {
         // username을 통해 User 엔티티 조회
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new DataNotFoundException("해당 유저를 찾을 수 없습니다."));
-        //유저가 지원한 채용공고 리스트
-        List<ApplyList> userapplyLists = user.getApplyList();
-        for(ApplyList applyList : userapplyLists){
+        List<ApplyList> userApplyLists = user.getApplyList()
+                .stream()
+                .sorted(Comparator.comparing(ApplyList::getCreateDate)) // createDate 기준 오름차순 정렬
+                .toList();
+        for(ApplyList applyList : userApplyLists){
             String title=applyList.getRecruit().getRecruitTitle();
             list.add(title);
         }

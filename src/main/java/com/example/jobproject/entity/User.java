@@ -31,10 +31,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteRecruit> favoriteRecruits;
 
-    // 유저는 여러 Corp에 관심을 가질 수 있다
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FavoriteCorp> favoriteCorps;
-
     // 유저는 여러 개의 이력서를 가질 수 있다
     @OneToMany(mappedBy = "user")
     private List<Resume> resumes;

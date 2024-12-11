@@ -41,6 +41,7 @@ public class AuthController {
     @PostMapping("/auth/login")
     public ResponseEntity<?> loginProcess(@RequestBody UserDTO userDTO) {
         // 로그인 처리 후 JWT 토큰을 반환하는 로직 (필터에서 수행)
+        System.out.println("로그인성공하였습니다!");
         return ResponseEntity.status(HttpStatus.OK).body("Login successful");
     }
 
@@ -100,5 +101,12 @@ public class AuthController {
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
         userService.updateUser(userDTO);
         return ResponseEntity.status(HttpStatus.OK).body("user update successful");
+    }
+
+    @Operation(summary = "회원탈퇴", description = "인가 받은 토큰의 사용자 스스로만 요청가능합니다")
+    @DeleteMapping("/auth/unregister")
+    public ResponseEntity<?> unregister(@RequestBody UserDTO userDTO) {
+        userService.deleteUser();
+        return ResponseEntity.status(HttpStatus.OK).body("user delete successful");
     }
 }

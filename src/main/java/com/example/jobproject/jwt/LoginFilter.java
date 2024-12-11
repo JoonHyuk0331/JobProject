@@ -1,12 +1,15 @@
 package com.example.jobproject.jwt;
 
 import com.example.jobproject.dto.CustomUserDetails;
+import com.example.jobproject.entity.LoginLog;
 import com.example.jobproject.entity.User;
+import com.example.jobproject.repository.LoginLogRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -47,7 +50,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         try {
             credentials = objectMapper.readValue(request.getInputStream(), Map.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException("이메일과 비밀번호를 담은 JSON 요청이 잘못되었습니다");
         }
 
         String username = credentials.get("username");
@@ -95,8 +98,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     public Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(24*60*60);//쿠키의 생명주기
-        //cookie.setSecure(true);
-        //cookie.setPath("/");
         cookie.setHttpOnly(true);
 
         return cookie;

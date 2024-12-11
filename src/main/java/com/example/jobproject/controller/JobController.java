@@ -26,6 +26,7 @@ public class JobController {
     private CorpDetailService corpDetailService;
 
     //1.채용 공고 조회 API (페이징)-------------------------------------------------------------------------------------
+    @Operation(summary = "채용공고 조회", description = "전체 채용공고를 페이징하여 출력합니다 정렬기준과 정렬방식을 선택할 수 있습니다")
     @GetMapping("/jobs")
     public Map<String, Object> recruitList(@Parameter(description = "정렬 기준이 될 필드명을 입력하세요", required = true) @RequestParam(defaultValue = "id") String keyword,
                                            @RequestParam(defaultValue = "0") int page,
@@ -39,6 +40,7 @@ public class JobController {
 
     //2-1.채용 공고 검색 API--------------------------------------------------------------------------------------------
     //    키워드 검색
+    @Operation(summary = "키워드 검색",description = "입력한 키워드의 제목을 가진 공고 출력")
     @GetMapping("/jobs/search/keyword")
     public Map<String ,Object> keyword(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListKeyword(keyword,page);
@@ -48,6 +50,7 @@ public class JobController {
         return response;
     }
     //    회사명 검색
+    @Operation(summary = "회사명 검색",description = "입력한 키워드의 회사이름을 가진 공고 출력")
     @GetMapping("/jobs/search/corp")
     public Map<String ,Object> corp(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListCorp(keyword,page);
@@ -57,6 +60,7 @@ public class JobController {
         return response;
     }
     //    포지션 검색
+    @Operation(summary = "포지션 검색",description = "입력한 키워드의 포지션을 가진 공고 출력")
     @GetMapping("/jobs/search/sector")
     public Map<String ,Object> sector(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListSector(keyword,page);
@@ -68,6 +72,7 @@ public class JobController {
 
     //2-2.채용 공고 필터링 API -------------------------------------------------------------------------------------------
     //지역별
+    @Operation(summary = "지역별 필터링",description = "입력한 키워드의 지역에 속한 공고 출력")
     @GetMapping("/jobs/filter/location")
     public Map<String ,Object> filterLocation(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListLocation(keyword,page);
@@ -77,6 +82,7 @@ public class JobController {
         return response;
     }
     //경력별
+    @Operation(summary = "경력별 필터링",description = "입력한 키워드의 경력을 요구하는 공고 출력")
     @GetMapping("/jobs/filter/experience")
     public Map<String ,Object> filterExperience(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListExperience(keyword,page);
@@ -86,6 +92,7 @@ public class JobController {
         return response;
     }
     //급여별
+    @Operation(summary = "급여별 필터링", description = "입력한 급여값 이상의 정보만 필터링되어 출력됩니다")
     @GetMapping("/jobs/filter/salary")
     public Map<String ,Object> filterSalary(@RequestParam int money,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListSalary(money,page);//money(단위 만) 이상의 급여 행만 반환
@@ -95,6 +102,7 @@ public class JobController {
         return response;
     }
     //기술스택
+    @Operation(summary = "기술스택별 필터링",description = "입력한 기술스택을 요구하는 정보만 필터링되어 출력됩니다")
     @GetMapping("/jobs/filter/skill")
     public Map<String ,Object> filterJobSector(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListJobSector(keyword,page);
@@ -105,6 +113,7 @@ public class JobController {
     }
     //2-3.공고 상세 조회 API ---------------------------------------------------------------------------------------------
     //상세 정보 제공
+    @Operation(summary = "공고 상세 조회", description = "입력한 Id값의 상세 공고 정보를 조회합니다")
     @GetMapping("/jobs/{id}")
     public Map<String ,Object> detail(@PathVariable int id) {
         //a.공고내용[recruitDTO]
