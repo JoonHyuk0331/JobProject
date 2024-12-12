@@ -44,6 +44,9 @@ http://113.198.66.75:17206/swagger-ui/index.html#/
 ````
 ---
 *** 추가로 만든 API 3개, 이력서 저장,삭제, 상위회사 연봉정보
+
+*** JWT access 토큰의 경우 발급받은 뒤 swagger 우상단 Authorize 버튼을 누르고 상단 access 토큰 부분에 bearer를 제외한 순수 토큰값만 넣으면됩니다
+
 ## 1.AuthController
 회원가입, 로그인, 토큰 재발급, 회원 정보 수정 및 탈퇴 관련 기능을 제공합니다.
 
