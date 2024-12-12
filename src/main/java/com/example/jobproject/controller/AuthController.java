@@ -37,7 +37,8 @@ public class AuthController {
         return ResponseEntity.ok("회원가입 성공 :" + userDTO.getUsername());
     }
 
-    @Operation(summary = "로그인", description = "응답 헤더에 JWT 토큰값이 반환됩니다,username과 password 만 입력하면 됩니다")
+    @Operation(summary = "로그인", description = "응답 헤더에 JWT 토큰값이 반환됩니다,보안을 위해 Form아 아닌 JSON 객체로 입력받습니다<br>요청입력 키값: username,password" +
+            "<br>그 외 자동입력")
     @PostMapping("/auth/login")
     public ResponseEntity<?> loginProcess(@RequestBody UserDTO userDTO) {
         // 로그인 처리 후 JWT 토큰을 반환하는 로직 (필터에서 수행)
@@ -45,7 +46,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body("Login successful");
     }
 
-    @Operation(summary = "토큰 재발급", description = "쿠키의 리프레시 토큰이 있다면 새로운 엑세스 토큰을 반환합니다")
+    @Operation(summary = "토큰 재발급", description = "현재 브라우저의 쿠키의 리프레시 토큰이 있다면 새로운 엑세스 토큰을 반환합니다")
     @PostMapping("/auth/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request, HttpServletResponse response) {
         //get refresh token
@@ -96,14 +97,15 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "회원정보 수정", description = "패스워드,지역,학력을 수정할 수 있습니다")
+    @Operation(summary = "회원정보 수정", description = "패스워드,지역,학력을 수정할 수 있습니다 <br>요청입력 키값: password,education,location" +
+            "<br>그 외 자동입력")
     @PutMapping("/auth/profile")
     public ResponseEntity<?> updateUser(@RequestBody UserDTO userDTO) {
         userService.updateUser(userDTO);
         return ResponseEntity.status(HttpStatus.OK).body("user update successful");
     }
 
-    @Operation(summary = "회원탈퇴", description = "인가 받은 토큰의 사용자 스스로만 요청가능합니다")
+    @Operation(summary = "회원탈퇴", description = "인가 받은 토큰값을 가진 사용자 스스로만 요청가능합니다")
     @DeleteMapping("/auth/unregister")
     public ResponseEntity<?> unregister(@RequestBody UserDTO userDTO) {
         userService.deleteUser();

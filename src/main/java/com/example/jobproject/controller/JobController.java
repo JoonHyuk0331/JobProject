@@ -6,7 +6,6 @@ import com.example.jobproject.service.CorpDetailService;
 import com.example.jobproject.service.JobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,8 @@ public class JobController {
     //1.채용 공고 조회 API (페이징)-------------------------------------------------------------------------------------
     @Operation(summary = "채용공고 조회", description = "전체 채용공고를 페이징하여 출력합니다 정렬기준과 정렬방식을 선택할 수 있습니다")
     @GetMapping("/jobs")
-    public Map<String, Object> recruitList(@Parameter(description = "정렬 기준이 될 필드명을 입력하세요", required = true) @RequestParam(defaultValue = "id") String keyword,
+    public Map<String, Object> recruitList(@Parameter(description = "정렬 기준이 될 필드명을 입력하세요" +
+            "<br>ex)id,recruitSalary,recruitViews,recruitCompany등...", required = true) @RequestParam(defaultValue = "id") String keyword,
                                            @RequestParam(defaultValue = "0") int page,
                                            @Parameter(description = "오름차순 : ASC 내림차순 : DESC", required = true) @RequestParam(defaultValue = "ASC") String order) {
         Page<RecruitDTO> recruitPage = jobService.getSortedListAll(keyword,page,order);
@@ -72,7 +72,7 @@ public class JobController {
 
     //2-2.채용 공고 필터링 API -------------------------------------------------------------------------------------------
     //지역별
-    @Operation(summary = "지역별 필터링",description = "입력한 키워드의 지역에 속한 공고 출력")
+    @Operation(summary = "지역별 필터링",description = "입력한 키워드의 지역에 속한 공고 출력<br>ex)서울,부산 등")
     @GetMapping("/jobs/filter/location")
     public Map<String ,Object> filterLocation(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListLocation(keyword,page);
@@ -82,7 +82,7 @@ public class JobController {
         return response;
     }
     //경력별
-    @Operation(summary = "경력별 필터링",description = "입력한 키워드의 경력을 요구하는 공고 출력")
+    @Operation(summary = "경력별 필터링",description = "입력한 키워드의 경력을 요구하는 공고 출력 <br>ex)신입,경력,경력3년,경력5년")
     @GetMapping("/jobs/filter/experience")
     public Map<String ,Object> filterExperience(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListExperience(keyword,page);
@@ -102,7 +102,7 @@ public class JobController {
         return response;
     }
     //기술스택
-    @Operation(summary = "기술스택별 필터링",description = "입력한 기술스택을 요구하는 정보만 필터링되어 출력됩니다")
+    @Operation(summary = "기술스택별 필터링",description = "입력한 기술스택을 요구하는 정보만 필터링되어 출력됩니다<br>ex)C++,AWS 등")
     @GetMapping("/jobs/filter/skill")
     public Map<String ,Object> filterJobSector(@RequestParam String keyword,@RequestParam(defaultValue = "0") int page) {
         Page<RecruitDTO> recruitPage = jobService.getListJobSector(keyword,page);
@@ -142,7 +142,7 @@ public class JobController {
     }
 
     //채용 공고 등록 API
-    @Operation(summary = "채용공고 등록", description = "JSON객체를 입력으로 받습니다 회사 Id를 모를경우 corpId 필드를 제외하고 요청을 보내세요 null 값으로 처리됩니다")
+    @Operation(summary = "채용공고 등록", description = "id,recruitViews 를 제외한 모든 키 값을 JSON객체로 입력 받습니다<br>회사 Id(corpId)를 모를경우 회사명 검색 API를 통해 Id를 꼭 찾아 입력해주세요")
     @PostMapping("/jobs/create")
     public ResponseEntity<String> createRecruit (@RequestBody RecruitDTO recruitDTO ) {
         jobService.createRecruit(recruitDTO);
