@@ -9,6 +9,12 @@ WebFramework: Springboot 3.3.6<br>
 DB: mysql,JPA<br>
 Data: 사람인사이트 크롤링 with beautifulsoup4,python<br>
 Security: JWT access/refresh 토큰 방식
+---
+## Crawl 설명
+별도로 첨부된 python 파일의 keyword(크롤링할 검색어 키워드)와 allPage(크롤링 할 페이지 개수)를 입력해주세요
+ex)
+keyword='5'
+allPage=5
 
 ---
 ## Swagger 설명
