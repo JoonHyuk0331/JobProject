@@ -4,27 +4,37 @@
 ---
 ## 개발 기술
 ![다운로드](https://github.com/user-attachments/assets/df65d834-a30f-4299-b54c-6d8061937e2b)
+<br>
 Language: Java<br>
 WebFramework: Springboot 3.3.6<br>
 DB: mysql,JPA<br>
-Data: 사람인사이트 크롤링 with beautifulsoup4,python<br>
-Security: JWT access/refresh 토큰 방식
----
-## Crawl 설명
-별도로 첨부된 python 파일의 keyword(크롤링할 검색어 키워드)와 allPage(크롤링 할 페이지 개수)를 입력해주세요
-ex)
-keyword='5'
-allPage=5
+Data: beautifulsoup4로 사람인 정적 크롤링<br>
+Security: JWT access/refresh 토큰 방식 적용
+
+### 본 API 서버에는 다음과 같은 수준의 기능들이 구현되어있습니다
+### a.DataBase
+관계 설정 및 제약조건이 설정된 9가지의 모델로 구성, 다대다 관계 해소를 위한 연결테이블 사용
+### b.CRUD
+페이징, Base64기반 비밀번호 암호화, 에러처리, 인증 미들웨어 사용, 중복체크, 상태별 필터링, 최신순 정렬, 검색기능,조회수 증가
+### c.Scurity
+JWT 기반 인증 Access Token,Refresh Token 구현, 스웨거를 통해 토큰 갱신 가능하도록 처리
+### d.Code
+MVC 아키텍처 패턴 적용(DTO 사용), 의존성 주입 패턴 적용
+### e.Error
+커스텀 에러 클래스를 통해 에러 응답 포맷 통일, HTTP 상태 코드 매핑
+### f.Response
+API 응답 형식 통일
 
 ---
-## Swagger 설명
+## API / Swagger 가이드라인
 swagger url <br>
 http://113.198.66.75:17206/swagger-ui/index.html#/
+<br>비용문제로 현재 작동하지 않습니다 url 
 
 <strong>*** 대부분의 요청에 JSON 객체가 요구됩니다! <br>
 필요하지 않은 항목들은 기본값으로 세팅되거나
 코드 내부에서 알아서 설정되니 요구되는 값만 입력해서 요청을 보내면 됩니다.
-요구되는 입력값은 스웨거 세부 설명이나 해당 Readme 문서에 작성되어 있으니 참고 부탁드립니다.
+요구되는 입력값은 스웨거 세부 설명이나 해당 Readme 문서에 작성되어 있으니 참고.
 </strong>
 
 예시 : 회원 정보 수정 (PUT /auth/profile)
@@ -50,9 +60,6 @@ http://113.198.66.75:17206/swagger-ui/index.html#/
 ````
 ---
 *** 추가로 만든 API 3개, 이력서 저장,삭제, 상위회사 연봉정보
-
-*** JWT access 토큰의 경우 발급받은 뒤 swagger 우상단 Authorize 버튼을 누르고 상단 access 토큰 부분에 bearer를 제외한 순수 토큰값만 넣으면됩니다
-
 ## 1.AuthController
 회원가입, 로그인, 토큰 재발급, 회원 정보 수정 및 탈퇴 관련 기능을 제공합니다.
 
